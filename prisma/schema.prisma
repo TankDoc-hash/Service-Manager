@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  DOCTOR
+}
+
+enum UserStatus {
+  ACTIVE
+  DISABLED
+}
+
+enum ServiceType {
+  AQUARIUM_CLEANING
+  POND_CLEANING
+  FILTER_MAINTENANCE
+  WATER_TREATMENT
+  OTHER
+}
+
+enum ExpenseCategory {
+  FUEL
+  EQUIPMENT
+  CHEMICALS
+  MISCELLANEOUS
+}
+
+enum WorkStatus {
+  NOT_STARTED
+  STARTED
+  COMPLETED
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  phone     String
+  password  String
+  role      Role       @default(DOCTOR)
+  status    UserStatus @default(ACTIVE)
+  createdAt DateTime   @default(now())
+
+  assignedServices Service[] @relation("DoctorServices")
+  expenses         Expense[]
+}
+
+model Customer {
+  id        String    @id @default(cuid())
+  name      String
+  phone     String    @unique
+  address   String
+  notes     String?
+  createdAt DateTime  @default(now())
+  services  Service[]
+}
+
+model Service {
+  id              String      @id @default(cuid())
+  customerId      String
+  customer        Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  doctorId        String?
+  doctor          User?       @relation("DoctorServices", fields: [doctorId], references: [id], onDelete: SetNull)
+  serviceType     ServiceType
+  serviceDate     DateTime
+  serviceTime     String?
+  nextServiceDate DateTime
+  cost            Float
+  notes           String?
+  status          WorkStatus  @default(NOT_STARTED)
+  reminderSent    Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([nextServiceDate])
+  @@index([customerId])
+  @@index([doctorId])
+}
+
+model Expense {
+  id        String          @id @default(cuid())
+  title     String
+  category  ExpenseCategory @default(MISCELLANEOUS)
+  amount    Float
+  date      DateTime        @default(now())
+  notes     String?
+  createdBy String?
+  creator   User?           @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@index([date])
+  @@index([category])
+}
