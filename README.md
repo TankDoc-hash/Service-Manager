@@ -3,7 +3,7 @@
 > Aquarium & Pond Cleaning Service Management for Bangalore
 > Zero-cost, production-ready, 5000+ customer capacity
 
----
+---.
 
 ## Tech Stack
 
