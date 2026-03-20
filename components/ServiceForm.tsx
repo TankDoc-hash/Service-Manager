@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { SERVICE_TYPE_LABELS, ServiceWithCustomer } from '@/lib/types'
 import { format, addDays } from 'date-fns'
+import AddressInput from './AddressInput'
 
 interface Client {
   id: string
@@ -311,7 +312,7 @@ export default function ServiceForm({ initial, clientId, clientName, clientPhone
             </div>
             <div>
               <label htmlFor={`${formId}-address`} className="form-label">Address *</label>
-              <input id={`${formId}-address`} className="input-field" value={form.address} onChange={(e) => set('address', e.target.value)} placeholder="e.g. 12th Cross, Indiranagar, Bangalore" required disabled={!!selectedClient} style={selectedClient ? { opacity: 0.7 } : {}} />
+              <AddressInput id={`${formId}-address`} value={form.address} onChange={(val) => set('address', val)} placeholder="e.g. 12th Cross, Indiranagar, Bangalore" required disabled={!!selectedClient} style={selectedClient ? { opacity: 0.7 } : {}} />
             </div>
           </>
         )}

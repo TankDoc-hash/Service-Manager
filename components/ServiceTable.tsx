@@ -5,6 +5,7 @@ import { ServiceWithCustomer, SERVICE_TYPE_LABELS, WORK_STATUS_LABELS, WorkStatu
 import { useAuth } from './AuthProvider'
 import StatusBadge from './StatusBadge'
 import ServiceForm from './ServiceForm'
+import AddressLink from './AddressLink'
 import { format } from 'date-fns'
 
 function isEncrypted(value: string | null | undefined): boolean {
@@ -145,9 +146,7 @@ export default function ServiceTable({ services, onRefresh, emptyMessage }: Serv
                     </span>
                   </td>
                   <td>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '13px', maxWidth: '180px', display: 'block', wordBreak: 'break-word' }}>
-                      {safeText(s.customer.address)}
-                    </span>
+                    <AddressLink address={s.customer.address} style={{ fontSize: '13px', maxWidth: '180px', display: 'block', wordBreak: 'break-word' }} />
                   </td>
                   <td>
                     <span style={{ background: 'rgba(16, 104, 148, 0.07)', border: '1px solid rgba(16, 104, 148, 0.15)', borderRadius: '6px', padding: '3px 8px', fontSize: '12px', color: 'var(--teal-400)', fontFamily: 'DM Mono', whiteSpace: 'nowrap' }}>

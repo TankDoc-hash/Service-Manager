@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
+import AddressInput from '@/components/AddressInput'
+import AddressLink from '@/components/AddressLink'
 
 function isEncrypted(value: string | null | undefined): boolean {
   return !!value && value.startsWith('enc:')
@@ -144,7 +146,7 @@ export default function ClientsPage() {
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
                 <label className="form-label">Address *</label>
-                <input className="input-field" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} required placeholder="Full address" />
+                <AddressInput value={form.address} onChange={(val) => setForm({ ...form, address: val })} required placeholder="Full address" />
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
                 <label className="form-label">Notes</label>
@@ -194,7 +196,7 @@ export default function ClientsPage() {
                   <tr key={c.id}>
                     <td style={{ fontFamily: 'Plus Jakarta Sans', fontWeight: 600 }}>{c.name}</td>
                     <td style={{ fontFamily: 'DM Mono', fontSize: '13px', color: 'var(--text-secondary)' }}>{formatPhone(c.phone)}</td>
-                    <td style={{ color: 'var(--text-secondary)', fontSize: '13px', maxWidth: '200px' }}>{safeText(c.address)}</td>
+                    <td style={{ maxWidth: '200px' }}><AddressLink address={c.address} style={{ fontSize: '13px' }} /></td>
                     <td style={{ fontFamily: 'DM Mono', fontSize: '13px', color: 'var(--teal-400)' }}>{c.totalServices}</td>
                     <td style={{ fontFamily: 'DM Mono', fontSize: '13px', color: 'var(--text-secondary)' }}>{fmtDate(c.lastServiceDate)}</td>
                     <td style={{ fontFamily: 'DM Mono', fontSize: '13px' }}>{fmtDate(c.nextServiceDue)}</td>

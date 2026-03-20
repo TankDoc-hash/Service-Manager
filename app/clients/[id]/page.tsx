@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation'
 import { SERVICE_TYPE_LABELS, WORK_STATUS_LABELS, WorkStatus, ServiceWithCustomer } from '@/lib/types'
 import StatusBadge from '@/components/StatusBadge'
 import ServiceForm from '@/components/ServiceForm'
+import AddressInput from '@/components/AddressInput'
+import AddressLink from '@/components/AddressLink'
 
 function isEncrypted(value: string | null | undefined): boolean {
   return !!value && value.startsWith('enc:')
@@ -170,7 +172,7 @@ export default function ClientDetailPage() {
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
                 <label htmlFor="edit-address" className="form-label">Address *</label>
-                <input id="edit-address" className="input-field" value={editForm.address} onChange={(e) => setEditForm({ ...editForm, address: e.target.value })} required />
+                <AddressInput id="edit-address" value={editForm.address} onChange={(val) => setEditForm({ ...editForm, address: val })} required />
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
                 <label htmlFor="edit-notes" className="form-label">Notes</label>
@@ -191,7 +193,7 @@ export default function ClientDetailPage() {
             </div>
             <div>
               <div className="form-label" style={{ marginBottom: '4px' }}>Address</div>
-              <div style={{ fontSize: '15px', color: 'var(--text-primary)' }}>{safeText(client.address)}</div>
+              <AddressLink address={client.address} style={{ fontSize: '15px' }} />
             </div>
             <div>
               <div className="form-label" style={{ marginBottom: '4px' }}>Total Services</div>
