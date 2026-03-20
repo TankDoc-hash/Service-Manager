@@ -41,7 +41,7 @@ export default function AddressInput({
 
     try {
       const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + ', India')}&limit=5&addressdetails=0`,
+        `https://nominatim.openstreetmap.org/search?format=json&countrycodes=in&q=${encodeURIComponent(query)}&limit=5&addressdetails=0`,
         { headers: { 'Accept-Language': 'en' } }
       )
       if (!res.ok) return
