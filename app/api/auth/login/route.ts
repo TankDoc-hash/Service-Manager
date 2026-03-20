@@ -31,7 +31,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
-    const decryptedUser = decryptUserPhone(user)
+    let phone = user.phone
+    try {
+      const decryptedUser = decryptUserPhone(user)
+      phone = decryptedUser.phone
+    } catch {
+      // If decryption fails, return raw phone (may be encrypted string)
+    }
 
     const token = await createToken({
       userId: user.id,
@@ -45,7 +51,7 @@ export async function POST(req: NextRequest) {
         id: user.id,
         name: user.name,
         email: user.email,
-        phone: decryptedUser.phone,
+        phone,
         role: user.role,
       },
     })
